@@ -1,0 +1,135 @@
+Turbo Assembler	 Version 3.0	    10/23/19 18:37:49	    Page 1
+tarea506.asm
+
+
+
+      1				     ;****** CÓDIGO DE	INICIO **********************************
+      2				     ideal
+      3				     dosseg
+      4	0000			     model small
+      5	0000			     stack 256
+      6				     ;****** VARIABLES DEL PROGRAMA ****************************
+      7	0100			     dataseg
+      8	0000  00		     codsal   db 0
+      9	0001  ??		     contador db ?
+     10	0002  ??		     dato     db ?
+     11	0003  ??		     resul    db ?
+     12				     ;****** CÓDIGO DEL PROGRAMA *******************************
+     13	0004			     codeseg
+     14	0000			     inicio:
+     15	0000  B8 0000s		     mov ax, @data ; Inicializa	el
+     16	0003  8E D8		     mov ds, ax	; segmento de datos
+     17	0005  32 ED		     xor ch,ch ; ch = 0
+     18	0007  32 E4		     xor ah,ah ; ah =0
+     19	0009  A0 0002r		     mov al, [dato] ;al	= dato
+     20	000C  8A 3E 0002r	     mov bh, [dato] ;bh	= dato
+     21	0010  B1 07		     mov cl,7 ;	cl = 7
+     22
+     23	0012  E3 07		     ciclo: jcxz finalciclo ; if(cx == 0) ---> final:
+     24	0014  D0 E8		     shr al,1 ;	al>>1 se corre un bit a	la derecha
+     25	0016  80 D4 00		     adc ah,0 ;	ah += c
+     26	0019  E2 F7		     loop ciclo	; retorna a la etiqueta	ciclo
+     27
+     28	001B			     finalciclo:	;ve si el contador es par o impar dividiendolo por dos
+     29	001B  88 26 0001r	     mov [contador],ah	; aux =	ah
+     30	001F  33 C0		     xor ax, ax		;limpiamos ax
+     31	0021  A0 0001r		     mov al, [contador]	; al = aux
+     32	0024  B3 02		     mov bl, 2		; bl = 2
+     33	0026  F6 F3		     div bl		;ax/bx
+     34	0028  8A DC		     mov bl, ah		;el residuo de la division bl =	residuo
+     35	002A  B0 00		     mov al, 0		;al = 0
+     36	002C  3A C3		     cmp al,bl		; compara el residuo al+= 0-residuo
+     37	002E  74 03		     je	par		; si el	contador es un numero par lo manda a la	etiqueta par z = 1
+     38	0030  EB 1C 90		     jmp impar		; si no	es par
+     39
+     40
+     41	0033			     par:
+     42	0033  32 E4		     xor ah, ah		; ah = 0
+     43	0035  8A C7		     mov al,bh		; al = dato
+     44	0037  D0 E7		     shl bh, 1		; 1 << dato
+     45	0039  80 D4 00		     adc ah,0		; ah +=	c
+     46	003C  80 FC 01		     cmp ah,1		; compara ah con uno
+     47	003F  74 03		     je	restar		; si ah	es igual a 1 se	combierte ese bit a 0
+     48	0041  EB 26 90		     jmp fin		; si no	es igual a uno
+     49
+     50	0044			     restar:
+     51	0044  B3 80		     mov bl, 80h	; bl = 1000 0000b = 128d = 80h
+     52	0046  2A C3		     sub al,bl		; al = al - bl	-> dato-=80h
+     53	0048  A2 0003r		     mov [resul],al	; resul	= al ->	aux = dato-80h
+     54	004B  EB 1F 90		     jmp salir		; saltar a salir
+     55
+     56
+     57	004E			     impar:
+Turbo Assembler	 Version 3.0	    10/23/19 18:37:49	    Page 2
+tarea506.asm
+
+
+
+     58	004E  32 E4		     xor ah, ah		; ah = 0
+     59	0050  8A C7		     mov al,bh		; al = dato
+     60	0052  D0 E7		     shl bh, 1		; 1 << dato
+     61	0054  80 D4 00		     adc ah,0		; ah +=	c
+     62	0057  80 FC 01		     cmp ah,1		; compara ah con uno
+     63	005A  74 0D		     je	 fin	      ;	si ah es igual a 1 se combierte	ese bit	a 0
+     64	005C  EB 01 90		     jmp sumar
+     65
+     66	005F			     sumar:
+     67	005F  B3 80		     mov bl,80h
+     68	0061  02 C3		     add al,bl
+     69	0063  A2 0003r		     mov [resul],al
+     70	0066  EB 04 90		     jmp salir
+     71
+     72	0069			     fin:
+     73	0069  A2 0003r		     mov [resul],al ; contador = ah
+     74
+     75	006C			     salir:
+     76	006C  B4 4C		     mov ah, 04Ch
+     77	006E  A0 0000r		     mov al, [codsal]
+     78	0071  CD 21		     int 21h
+     79				     ;****** CÓDIGO DE	TERMINACIÓN *****************************
+     80				     end inicio
+Turbo Assembler	 Version 3.0	    10/23/19 18:37:49	    Page 3
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/23/19"
+??FILENAME			  Text	 "tarea506"
+??TIME				  Text	 "18:37:49"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TAREA506
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+CICLO				  Near	 _TEXT:0012
+CODSAL				  Byte	 DGROUP:0000
+CONTADOR			  Byte	 DGROUP:0001
+DATO				  Byte	 DGROUP:0002
+FIN				  Near	 _TEXT:0069
+FINALCICLO			  Near	 _TEXT:001B
+IMPAR				  Near	 _TEXT:004E
+INICIO				  Near	 _TEXT:0000
+PAR				  Near	 _TEXT:0033
+RESTAR				  Near	 _TEXT:0044
+RESUL				  Byte	 DGROUP:0003
+SALIR				  Near	 _TEXT:006C
+SUMAR				  Near	 _TEXT:005F
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0004 Word	  Public  DATA
+_TEXT				  16  0073 Word	  Public  CODE
+
