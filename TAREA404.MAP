@@ -1,0 +1,27 @@
+
+ Start  Stop   Length Name               Class
+
+ 00000H 0001FH 00020H _TEXT              CODE
+ 00020H 00024H 00005H _DATA              DATA
+ 00030H 0012FH 00100H STACK              STACK
+
+Detailed map of segments
+
+0000:0000 0020 C=CODE S=_TEXT G=(none) M=TAREA404.ASM ACBP=48
+0002:0000 0005 C=DATA S=_DATA G=DGROUP M=TAREA404.ASM ACBP=48
+0003:0000 0100 C=STACK S=STACK G=DGROUP M=TAREA404.ASM ACBP=74
+
+  Address         Publics by Name
+
+
+  Address         Publics by Value
+
+
+Line numbers for tAREA404.obj(TAREA404.ASM) segment _TEXT
+
+    23 0000:0000    24 0000:0003    25 0000:0005    26 0000:0008
+    27 0000:000A    28 0000:000E    29 0000:0010    30 0000:0012
+    31 0000:0014    32 0000:0016    35 0000:0019    36 0000:001B
+    37 0000:001E
+Program entry point at 0000:0000
+
