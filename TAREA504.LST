@@ -1,0 +1,96 @@
+Turbo Assembler	 Version 3.0	    10/22/19 19:57:44	    Page 1
+tarea504.asm
+
+
+
+      1				     ;****** CÓDIGO DE	INICIO **********************************
+      2				     ideal
+      3				     dosseg
+      4	0000			     model small
+      5	0000			     stack 256
+      6				     ;****** VARIABLES DEL PROGRAMA ****************************
+      7
+      8	0100			     dataseg
+      9	0000  00		     codsal db 0
+     10	0001  ????		     limite dw ?
+     11	0003  ????		     raiz dw ?
+     12	0005  0000		     aux dw 0
+     13				     ;****** CÓDIGO DEL PROGRAMA *******************************
+     14	0007			     codeseg
+     15	0000			     inicio:
+     16	0000  B8 0000s		     mov ax, @data ; Inicializa	el
+     17	0003  8E D8		     mov ds, ax	; segmento de datos
+     18	0005  B1 01		     mov cl, 1
+     19	0007  BB 0000		     mov bx, 0
+     20
+     21
+     22	000A			     ciclo:
+     23	000A  8A C1		     mov al,cl ; al = cl
+     24	000C  F6 E1		     mul cl    ; ax = al*cl
+     25	000E  01 06 0005r	     add [aux],	ax    ;aux+=ax
+     26	0012  A1 0005r		     mov ax, [aux]    ;ax = aux
+     27
+     28	0015  3B 06 0001r	     cmp ax, [limite]
+     29	0019  77 04		     ja	final ;si ax es	mayor a	l limite se salta a la etiqueta	final
+     30	001B  43		     inc bx ;bx++
+     31	001C  41		     inc cx ;cx++
+     32	001D  EB EB		     jmp ciclo ;salta a	la etiqueta ciclo
+     33
+     34
+     35
+     36	001F			     final:
+     37	001F  89 1E 0003r	     mov raiz, bx; raiz	= bx
+*Warning* tarea504.asm(37) Pointer expression needs brackets
+     38
+     39	0023			     salir:
+     40	0023  B4 4C		     mov ah, 04Ch
+     41	0025  A0 0000r		     mov al, [codsal]
+     42	0028  CD 21		     int 21h
+     43				     ;****** CÓDIGO DE	TERMINACIÓN *****************************
+     44				     end inicio
+Turbo Assembler	 Version 3.0	    10/22/19 19:57:44	    Page 2
+Symbol Table
+
+
+
+
+Symbol Name			  Type	 Value
+
+??DATE				  Text	 "10/22/19"
+??FILENAME			  Text	 "tarea504"
+??TIME				  Text	 "19:57:44"
+??VERSION			  Number 0300
+@32BIT				  Text	 0
+@CODE				  Text	 _TEXT
+@CODESIZE			  Text	 0
+@CPU				  Text	 0101H
+@CURSEG				  Text	 _TEXT
+@DATA				  Text	 DGROUP
+@DATASIZE			  Text	 0
+@FILENAME			  Text	 TAREA504
+@INTERFACE			  Text	 00H
+@MODEL				  Text	 2
+@STACK				  Text	 DGROUP
+@WORDSIZE			  Text	 2
+AUX				  Word	 DGROUP:0005
+CICLO				  Near	 _TEXT:000A
+CODSAL				  Byte	 DGROUP:0000
+FINAL				  Near	 _TEXT:001F
+INICIO				  Near	 _TEXT:0000
+LIMITE				  Word	 DGROUP:0001
+RAIZ				  Word	 DGROUP:0003
+SALIR				  Near	 _TEXT:0023
+
+Groups & Segments		  Bit Size Align  Combine Class
+
+DGROUP				  Group
+  STACK				  16  0100 Para	  Stack	  STACK
+  _DATA				  16  0007 Word	  Public  DATA
+_TEXT				  16  002A Word	  Public  CODE
+Turbo Assembler	 Version 3.0	    10/22/19 19:57:44	    Page 3
+Error Summary
+
+
+
+*Warning* tarea504.asm(37) Pointer expression needs brackets
+
